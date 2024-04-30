@@ -7,13 +7,29 @@ void runServer(){
 	httplib::Server svr;
 
 	svr.Get("/", [](const httplib::Request& req, httplib::Response& res) {
-			ApplicationController controller;
+			PagesController controller;
 			res.set_content(controller.home(), "text/html");
 	});
 
 	svr.Get("/about", [](const httplib::Request& req, httplib::Response& res) {
-			ApplicationController controller;
+			PagesController controller;
 			res.set_content(controller.about(), "text/html");
+	});
+
+	svr.Get("/services", [](const httplib::Request& req, httplib::Response& res) {
+			PagesController controller;
+			res.set_content(controller.services(), "text/html");
+	});
+
+	svr.Get("/contact", [](const httplib::Request& req, httplib::Response& res) {
+			PagesController controller;
+			res.set_content(controller.contact(), "text/html");
+	});
+
+	svr.set_error_handler([](const httplib::Request& req, httplib::Response& res) {
+		res.status = 404; // Set HTTP status code to 404
+		PagesController controller;
+  res.set_content(controller.not_found(), "text/html"); // Response body
 	});
 
 	// Attempt to run the HTTP server on the chosen port

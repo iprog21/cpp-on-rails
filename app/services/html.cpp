@@ -1,6 +1,3 @@
-#ifndef HTML_H
-#define HTML_H
-
 #include <string>
 #include <chrono>
 #include <vector>
@@ -9,11 +6,10 @@
 #include <regex>
 
 class Html {
-	struct KeyValuePair {
-  std::string element, key, value;
- };
+	struct KeyValuePair { std::string element, key, value; };
 	std::string site_title, footer_title;
 	std::vector<KeyValuePair> styles;
+	std::vector<std::string> raw_styles;
 	std::vector<std::string> scripts;
 	std::vector<std::string> element_tags;
 
@@ -25,6 +21,8 @@ class Html {
 			setDefaultScripts();
 			setDefaultElementTags();
 		}
+
+		virtual void buildContent(){}
 
 		std::string getCurrentYear() {
     std::time_t currentTime = std::time(nullptr);
@@ -45,6 +43,7 @@ class Html {
 		void setDefaultStyles(){
 			addStyle("body", "background-color", "#fff");
 			addStyle("body", "margin", "0");
+			addStyle("body", "font-family", "Arial, sans-serif");
 			addStyle("body", "padding-bottom", "100px");
 			addStyle("body", "display", "flex");
 			addStyle("body", "flex-direction", "column");
@@ -56,6 +55,25 @@ class Html {
 			addStyle("footer", "bottom", "0");
 			addStyle("footer", "width", "100%");
 			addStyle(".hidden", "display", "none");
+			addStyle(".navbar", "background-color", "#333");
+			addStyle(".navbar", "overflow", "hidden");
+			addStyle(".navbar-brand", "float", "left");
+			addStyle(".navbar-brand", "display", "block");
+			addStyle(".navbar-brand", "padding", "15px 20px");
+			addStyle(".navbar-brand", "color", "#fff");
+			addStyle(".navbar-brand", "text-decoration", "none");
+			addStyle(".navbar-brand", "font-size", "20px");
+			addStyle(".navbar-menu", "float", "right");
+			addStyle(".navbar-menu ul", "list-style-type", "none");
+			addStyle(".navbar-menu ul", "margin", "0");
+			addStyle(".navbar-menu ul", "padding", "0");
+			addStyle(".navbar-menu ul", "overflow", "hidden");
+			addStyle(".navbar-menu li", "float", "left");
+			addStyle(".navbar-menu li a", "display", "block");
+			addStyle(".navbar-menu li a", "padding", "15px 20px");
+			addStyle(".navbar-menu li a", "color", "#fff");
+			addStyle(".navbar-menu li a", "text-decoration", "none");
+			addStyle(".navbar-menu li a:hover", "background-color", "#555");
 		}
 
 		void setDefaultScripts(){
@@ -63,6 +81,7 @@ class Html {
 		}
 
 		void setDefaultElementTags(){
+			addElementTag(defaultNavBar());
 			addElementTag(defaultElementTag());
 		}
 
@@ -80,6 +99,22 @@ class Html {
 			)";
 		}
 
+		virtual std::string defaultNavBar(){
+			return R"(
+				<div class='navbar'>
+					<a href='/' class='navbar-brand'>C++ on Rails</a>
+					<div class='navbar-menu'>
+							<ul>
+											<li><a href='/'>Home</a></li>
+											<li><a href='/about'>About</a></li>
+											<li><a href='/services'>Services</a></li>
+											<li><a href='/contact'>Contact</a></li>
+							</ul>
+					</div>
+				</div>
+			)";
+		}
+
 		void addStyle(std::string element, std::string key, std::string value){
 			 KeyValuePair pair;
 				pair.element = element;
@@ -87,6 +122,10 @@ class Html {
 				pair.value = value;
 
 				styles.push_back(pair);
+		}
+
+		void addRawStyle(std::string style){
+			raw_styles.push_back(style);
 		}
 
 		void addScript(std::string script){
@@ -120,11 +159,11 @@ class Html {
 
 			removeExtraSpaces(compiled_element_tags);
 
-			return "<main>" + compiled_element_tags + "</main>\n";
+			return compiled_element_tags;
 		}
 
 		std::string generateFooter() {
-						return "</body>\n<footer>\n" + footer_title + "\n</footer>\n"
+						return "\n</body>\n<footer>\n" + footer_title + "\n</footer>\n"
 													+ generateScripts() +
 													"</body>\n"
 													"</html>\n";
@@ -143,6 +182,10 @@ class Html {
 						compiled_styles += style.key + ":" + style.value + ";";
 					compiled_styles += "}";
     }
+
+				// raw styles
+				for(const auto& raw_style : raw_styles)
+					compiled_styles += raw_style;
 
 			removeExtraSpaces(compiled_styles);
 
@@ -163,12 +206,9 @@ class Html {
 			return generateHeader() + generateContent() + generateFooter();
 		}
 
-		virtual void buildContent(){}
-
 		void removeExtraSpaces(std::string& str) {
     std::regex regex("\\s+");
     str = std::regex_replace(str, regex, " ");
     str = std::regex_replace(str, std::regex("^\\s+|\\s+$"), "");
   }
 };
-#endif // HTML_H
