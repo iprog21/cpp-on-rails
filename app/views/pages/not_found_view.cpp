@@ -1,6 +1,7 @@
 class NotFoundView : public Html {
-	public:
-		void buildContent() override {
+        public:
+                NotFoundView(){ setTemplatePath("app/templates/layout.html"); }
+                void buildContent() override {
                         addRawStyle(R"(
                                 h1 { color: #d3381c; }
                                 p { line-height: 1.6; }

@@ -1,5 +1,6 @@
 class ServicesView : public Html {
         public:
+                ServicesView(){ setTemplatePath("app/templates/layout.html"); }
                 void buildContent() override {
                         addRawStyle(R"(
                                 h1#services { margin-bottom: 10px; text-align: center; }
