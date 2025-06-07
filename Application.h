@@ -16,7 +16,7 @@ class Application {
 		}
 
  	void call(){
-		// Start the HTTP server on port 8080 in a separate thread
+                // Start the HTTP server on port 8080 in a separate thread (a different port may be chosen if 8080 is unavailable)
 			std::thread serverThread(runServer);
 
 			// Wait for the server to start (optional)
