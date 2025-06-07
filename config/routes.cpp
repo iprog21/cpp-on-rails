@@ -32,8 +32,8 @@ void runServer(){
                         res.set_content(controller.contact(), "text/html");
         });
 
-        svr.Get("/assets/style.css", [](const httplib::Request& req, httplib::Response& res) {
-                        std::ifstream file("app/assets/style.css");
+        svr.Get("/assets/main.css", [](const httplib::Request& req, httplib::Response& res) {
+                        std::ifstream file("app/assets/main.css");
                         if(file){
                                 std::ostringstream ss; ss << file.rdbuf();
                                 res.set_content(ss.str(), "text/css");
