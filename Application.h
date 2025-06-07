@@ -22,8 +22,10 @@ class Application {
 			// Wait for the server to start (optional)
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 
-			// Open the browser and navigate to the URL
-			openBrowser("http://localhost:" + std::to_string(chosenPort));
+                        // Optionally open the browser in development builds
+#ifdef OPEN_BROWSER
+                        openBrowser("http://localhost:" + std::to_string(chosenPort));
+#endif
 
 			// Join the server thread to wait for it to finish (optional)
 			serverThread.join();

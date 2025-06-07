@@ -12,9 +12,9 @@ C++ on Rails is not affiliated with or endorsed by the creators of Ruby on Rails
 
 ## How to use
 1. Clone the repo
-2. Run `make` to build the executable. This automatically performs `make clean` before compiling.
-3. `make` automatically cleans before compiling, but you can run `make clean` separately to just remove the compiled binary.
-4. Execute `./cpp-on-rails` to start the sample server.
+2. Run `make` to build the executables. This automatically performs `make clean` before compiling.
+3. `make` automatically cleans before compiling, but you can run `make clean` separately to just remove the compiled binaries.
+4. Execute `./cpp-on-rails-dev` for a development build or `./cpp-on-rails-prod` for a production build to start the sample server. The application no longer opens a browser automatically, so navigate to the printed URL manually.
 
 ## Running tests
 
