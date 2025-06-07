@@ -4,6 +4,8 @@
 #include <map>
 #include <unordered_map>
 #include <regex>
+#include "template.h"
+#include <fstream>
 
 class Html {
 	struct KeyValuePair { std::string element, key, value; };
@@ -11,7 +13,8 @@ class Html {
 	std::vector<KeyValuePair> styles;
 	std::vector<std::string> raw_styles;
 	std::vector<std::string> scripts;
-	std::vector<std::string> element_tags;
+        std::vector<std::string> element_tags;
+        std::string template_path;
 
 	public:
 		Html(){
@@ -36,9 +39,13 @@ class Html {
 			site_title = title;
 		}
 
-		void setFooterTitle(std::string title){
-			footer_title = title;
-		}
+                void setFooterTitle(std::string title){
+                        footer_title = title;
+                }
+
+                void setTemplatePath(std::string path){
+                        template_path = path;
+                }
 
 		void setDefaultStyles(){
 			addStyle("body", "background-color", "#fff");
@@ -78,8 +85,9 @@ class Html {
 			addStyle(".navbar-menu li a", "padding", "15px 20px");
 			addStyle(".navbar-menu li a", "color", "#fff");
 			addStyle(".navbar-menu li a", "text-decoration", "none");
-			addStyle(".navbar-menu li a:hover", "background-color", "#555");
-		}
+                        addStyle(".navbar-menu li a:hover", "background-color", "#555");
+                        loadCssFile("public/styles/main.css");
+                }
 
 		void setDefaultScripts(){
 				addScript(defaultScript());
@@ -129,9 +137,18 @@ class Html {
 				styles.push_back(pair);
 		}
 
-		void addRawStyle(std::string style){
-			raw_styles.push_back(style);
-		}
+                void addRawStyle(std::string style){
+                        raw_styles.push_back(style);
+                }
+
+                void loadCssFile(const std::string& path){
+                        std::ifstream file(path);
+                        if(file){
+                                std::string contents((std::istreambuf_iterator<char>(file)),
+                                                    std::istreambuf_iterator<char>());
+                                raw_styles.push_back(contents);
+                        }
+                }
 
 		void addScript(std::string script){
 			scripts.push_back(script);
@@ -207,9 +224,18 @@ class Html {
 			return "<script>" + compiled_scripts + "</script>\n";
 		}
 
-		std::string buildHtmlPage(){
-			return generateHeader() + generateContent() + generateFooter();
-		}
+                std::string buildHtmlPage(){
+                        if(template_path.empty())
+                                return generateHeader() + generateContent() + generateFooter();
+
+                        Template tpl(template_path);
+                        tpl.replace("title", site_title);
+                        tpl.replace("styles", generateStyles());
+                        tpl.replace("content", generateContent());
+                        tpl.replace("footer", footer_title);
+                        tpl.replace("scripts", generateScripts());
+                        return tpl.render();
+                }
 
 		void removeExtraSpaces(std::string& str) {
     std::regex regex("\\s+");

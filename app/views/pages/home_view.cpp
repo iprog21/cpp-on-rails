@@ -1,5 +1,6 @@
 class HomeView : public Html {
         public:
+                HomeView(){ setTemplatePath("app/templates/layout.html"); }
                 void buildContent() override {
                         addRawStyle(R"(
                                 h1#home { margin-bottom: 10px; }
