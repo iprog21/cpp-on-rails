@@ -1,0 +1,4 @@
+cpp-on-rails
+*.o
+*.out
+*.exe
