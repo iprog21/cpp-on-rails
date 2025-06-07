@@ -2,3 +2,4 @@ cpp-on-rails
 *.o
 *.out
 *.exe
+cpp-on-rails-prod
