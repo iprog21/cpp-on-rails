@@ -24,3 +24,9 @@ Run the test suite using `make`:
 make test
 ```
 
+## Custom styles
+
+The framework automatically loads `public/styles/main.css` and inlines its
+contents into each page. Modify this file to adjust colors, fonts or any other
+CSS rules and rebuild the project to see the changes.
+

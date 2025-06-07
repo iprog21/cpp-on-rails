@@ -4,6 +4,7 @@
 #include <map>
 #include <unordered_map>
 #include <regex>
+#include <fstream>
 
 class Html {
 	struct KeyValuePair { std::string element, key, value; };
@@ -78,8 +79,9 @@ class Html {
 			addStyle(".navbar-menu li a", "padding", "15px 20px");
 			addStyle(".navbar-menu li a", "color", "#fff");
 			addStyle(".navbar-menu li a", "text-decoration", "none");
-			addStyle(".navbar-menu li a:hover", "background-color", "#555");
-		}
+                        addStyle(".navbar-menu li a:hover", "background-color", "#555");
+                        loadCssFile("public/styles/main.css");
+                }
 
 		void setDefaultScripts(){
 				addScript(defaultScript());
@@ -129,9 +131,18 @@ class Html {
 				styles.push_back(pair);
 		}
 
-		void addRawStyle(std::string style){
-			raw_styles.push_back(style);
-		}
+                void addRawStyle(std::string style){
+                        raw_styles.push_back(style);
+                }
+
+                void loadCssFile(const std::string& path){
+                        std::ifstream file(path);
+                        if(file){
+                                std::string contents((std::istreambuf_iterator<char>(file)),
+                                                    std::istreambuf_iterator<char>());
+                                raw_styles.push_back(contents);
+                        }
+                }
 
 		void addScript(std::string script){
 			scripts.push_back(script);
