@@ -147,6 +147,7 @@ class Html {
 													"<head>\n"
 													"<title>" + site_title + "</title>\n"
 													+ generateStyles() +
+"<meta name='viewport' content='width=device-width, initial-scale=1'>\n"
 													"</head>\n"
 													"<body>\n";
 		}
