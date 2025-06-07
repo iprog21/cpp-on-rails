@@ -4,6 +4,7 @@
 #include <map>
 #include <unordered_map>
 #include <regex>
+#include "template.cpp"
 #include <fstream>
 
 class Html {
@@ -12,7 +13,8 @@ class Html {
 	std::vector<KeyValuePair> styles;
 	std::vector<std::string> raw_styles;
 	std::vector<std::string> scripts;
-	std::vector<std::string> element_tags;
+        std::vector<std::string> element_tags;
+        std::string template_path;
 
 	public:
 		Html(){
@@ -37,9 +39,13 @@ class Html {
 			site_title = title;
 		}
 
-		void setFooterTitle(std::string title){
-			footer_title = title;
-		}
+                void setFooterTitle(std::string title){
+                        footer_title = title;
+                }
+
+                void setTemplatePath(std::string path){
+                        template_path = path;
+                }
 
 		void setDefaultStyles(){
 			addStyle("body", "background-color", "#fff");
@@ -218,9 +224,18 @@ class Html {
 			return "<script>" + compiled_scripts + "</script>\n";
 		}
 
-		std::string buildHtmlPage(){
-			return generateHeader() + generateContent() + generateFooter();
-		}
+                std::string buildHtmlPage(){
+                        if(template_path.empty())
+                                return generateHeader() + generateContent() + generateFooter();
+
+                        Template tpl(template_path);
+                        tpl.replace("title", site_title);
+                        tpl.replace("styles", generateStyles());
+                        tpl.replace("content", generateContent());
+                        tpl.replace("footer", footer_title);
+                        tpl.replace("scripts", generateScripts());
+                        return tpl.render();
+                }
 
 		void removeExtraSpaces(std::string& str) {
     std::regex regex("\\s+");
