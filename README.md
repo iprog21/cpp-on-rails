@@ -13,7 +13,8 @@ C++ on Rails is not affiliated with or endorsed by the creators of Ruby on Rails
 ## How to use
 1. Clone the repo
 2. Run `make` to build the executable (requires a C++17 compiler).
-3. Execute `./cpp-on-rails` to start the sample server.
+3. Run `make clean` to remove the compiled binary and force a rebuild using the `clean` target.
+4. Execute `./cpp-on-rails` to start the sample server.
 
 ## Running tests
 
