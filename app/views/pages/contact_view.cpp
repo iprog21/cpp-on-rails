@@ -3,6 +3,7 @@ class ContactView : public Html {
                 void buildContent() override {
                         addRawStyle(R"(
                                 h1#contact { margin-bottom: 10px; text-align: center; }
+                                p { line-height: 1.6; text-align: center; }
                                 form { display: flex; flex-direction: column; gap: 10px; }
                                 label { font-weight: bold; }
                                 input, textarea { padding: 8px; }
@@ -11,6 +12,7 @@ class ContactView : public Html {
                         addElementTag(R"(
                                 <div class='container'>
                                         <h1 id='contact'>Contact Us</h1>
+                                        <p>Have questions or feedback? Drop us a message below.</p>
                                         <form>
                                                 <label>Name</label>
                                                 <input type='text' placeholder='Your Name'>
