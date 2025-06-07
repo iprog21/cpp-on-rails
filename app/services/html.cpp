@@ -24,7 +24,7 @@ class Html {
                         setDefaultStyles();
                         setDefaultScripts();
                         setDefaultElementTags();
-                        setGlobalStylesheet("/assets/style.css");
+                        setGlobalStylesheet("/assets/main.css");
                         setGlobalScript("/assets/app.js");
                 }
 
