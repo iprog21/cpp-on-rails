@@ -1,5 +1,9 @@
 #include "./../lib/httplib.h"
 #include "./../app/controllers/ApplicationController.h"
+#ifdef _WIN32
+#include <windows.h>
+#include <shellapi.h>
+#endif
 
 int chosenPort = 8080;
 
