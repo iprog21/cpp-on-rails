@@ -18,7 +18,7 @@ $(PROD_BIN): $(SRC)
 	$(CXX) $(CXXFLAGS) -DPRODUCTION $(SRC) -o $(PROD_BIN)
 
 $(BIN): $(SRC)
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(BIN)
+	$(CXX) $(CXXFLAGS) -DOPEN_BROWSER $(SRC) -o $(BIN)
 
 clean:
 	rm -f $(BIN) $(PROD_BIN) $(TEST_BIN)
