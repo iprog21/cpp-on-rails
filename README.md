@@ -15,3 +15,12 @@ C++ on Rails is not affiliated with or endorsed by the creators of Ruby on Rails
 2. cd repo
 3. ./cpp-on-rails
 
+## Running tests
+
+Compile the test suite using a C++17 compiler and run the resulting executable:
+
+```bash
+g++ -std=c++17 tests/test_home_view.cpp -o tests/run_tests
+./tests/run_tests
+```
+
