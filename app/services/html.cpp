@@ -14,15 +14,19 @@ class Html {
 	std::vector<std::string> scripts;
         std::vector<std::string> element_tags;
         std::string template_path;
+        std::string global_stylesheet;
+        std::string global_script;
 
 	public:
-		Html(){
-			setSiteTitle("C++ on Rails");
-			setFooterTitle("@ " + getCurrentYear() + " C++ on Rails.");
-			setDefaultStyles();
-			setDefaultScripts();
-			setDefaultElementTags();
-		}
+                Html(){
+                        setSiteTitle("C++ on Rails");
+                        setFooterTitle("@ " + getCurrentYear() + " C++ on Rails.");
+                        setDefaultStyles();
+                        setDefaultScripts();
+                        setDefaultElementTags();
+                        setGlobalStylesheet("/assets/style.css");
+                        setGlobalScript("/assets/app.js");
+                }
 
 		virtual void buildContent(){}
 
@@ -44,6 +48,14 @@ class Html {
 
                 void setTemplatePath(std::string path){
                         template_path = path;
+                }
+
+                void setGlobalStylesheet(std::string path){
+                        global_stylesheet = path;
+                }
+
+                void setGlobalScript(std::string path){
+                        global_script = path;
                 }
 
 		void setDefaultStyles(){
@@ -180,9 +192,9 @@ class Html {
                                        + "</body></html>\n";
                 }
 
-		std::string generateStyles() {
-			std::string compiled_styles;
-			std::unordered_map<std::string, std::vector<KeyValuePair>> groupedStyles;
+                std::string generateStyles() {
+                        std::string compiled_styles;
+                        std::unordered_map<std::string, std::vector<KeyValuePair>> groupedStyles;
 
 			for (const auto& style : styles)
 					groupedStyles[style.element].push_back(style);
@@ -198,20 +210,32 @@ class Html {
 				for(const auto& raw_style : raw_styles)
 					compiled_styles += raw_style;
 
-			removeExtraSpaces(compiled_styles);
+                        removeExtraSpaces(compiled_styles);
 
-			return "<style type='text/css'>" + compiled_styles + "</style>\n";
-		}
+                        std::string result;
+                        if(!global_stylesheet.empty())
+                                result += "<link rel='stylesheet' href='" + global_stylesheet + "'>\n";
 
-		std::string generateScripts() {
-			std::string compiled_scripts;
-			for(const auto& script : scripts)
-				compiled_scripts += script;
+                        result += "<style type='text/css'>" + compiled_styles + "</style>\n";
 
-			removeExtraSpaces(compiled_scripts);
+                        return result;
+                }
 
-			return "<script>" + compiled_scripts + "</script>\n";
-		}
+                std::string generateScripts() {
+                        std::string compiled_scripts;
+                        for(const auto& script : scripts)
+                                compiled_scripts += script;
+
+                        removeExtraSpaces(compiled_scripts);
+
+                        std::string result;
+                        if(!global_script.empty())
+                                result += "<script src='" + global_script + "'></script>\n";
+
+                        result += "<script>" + compiled_scripts + "</script>\n";
+
+                        return result;
+                }
 
                 std::string buildHtmlPage(){
                         if(template_path.empty())
