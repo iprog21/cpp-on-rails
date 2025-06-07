@@ -5,7 +5,7 @@ BIN = cpp-on-rails
 TEST_BIN = tests/run_tests
 TEST_SRC = tests/test_home_view.cpp
 
-all: $(BIN)
+all: clean $(BIN)
 
 test: $(TEST_BIN)
 	./$(TEST_BIN)
