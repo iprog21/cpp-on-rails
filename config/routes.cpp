@@ -1,5 +1,7 @@
 #include "./../lib/httplib.h"
 #include "./../app/controllers/ApplicationController.h"
+#include <fstream>
+#include <sstream>
 #ifdef _WIN32
 #include <windows.h>
 #include <shellapi.h>
@@ -25,10 +27,30 @@ void runServer(){
 			res.set_content(controller.services(), "text/html");
 	});
 
-	svr.Get("/contact", [](const httplib::Request& req, httplib::Response& res) {
-			PagesController controller;
-			res.set_content(controller.contact(), "text/html");
-	});
+        svr.Get("/contact", [](const httplib::Request& req, httplib::Response& res) {
+                        PagesController controller;
+                        res.set_content(controller.contact(), "text/html");
+        });
+
+        svr.Get("/assets/style.css", [](const httplib::Request& req, httplib::Response& res) {
+                        std::ifstream file("app/assets/style.css");
+                        if(file){
+                                std::ostringstream ss; ss << file.rdbuf();
+                                res.set_content(ss.str(), "text/css");
+                        } else {
+                                res.status = 404;
+                        }
+        });
+
+        svr.Get("/assets/app.js", [](const httplib::Request& req, httplib::Response& res) {
+                        std::ifstream file("app/assets/app.js");
+                        if(file){
+                                std::ostringstream ss; ss << file.rdbuf();
+                                res.set_content(ss.str(), "application/javascript");
+                        } else {
+                                res.status = 404;
+                        }
+        });
 
 	svr.set_error_handler([](const httplib::Request& req, httplib::Response& res) {
 		res.status = 404; // Set HTTP status code to 404
