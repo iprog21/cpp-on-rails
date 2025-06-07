@@ -55,7 +55,12 @@ class Html {
 			addStyle("footer", "bottom", "0");
 			addStyle("footer", "width", "100%");
 			addStyle(".hidden", "display", "none");
-			addStyle(".navbar", "background-color", "#333");
+			addStyle(".container", "max-width", "800px");
+			addStyle(".container", "margin", "50px auto");
+			addStyle(".container", "padding", "20px");
+			addStyle(".container", "background-color", "#fff");
+			addStyle(".container", "box-shadow", "0 2px 4px rgba(0,0,0,0.1)");
+                        addStyle(".navbar", "background-color", "#333");
 			addStyle(".navbar", "overflow", "hidden");
 			addStyle(".navbar-brand", "float", "left");
 			addStyle(".navbar-brand", "display", "block");
