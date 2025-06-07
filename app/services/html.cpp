@@ -162,12 +162,12 @@ class Html {
 			return compiled_element_tags;
 		}
 
-		std::string generateFooter() {
-						return "\n</body>\n<footer>\n" + footer_title + "\n</footer>\n"
-													+ generateScripts() +
-													"</body>\n"
-													"</html>\n";
-		}
+                std::string generateFooter() {
+                        return "\n<footer>\n" + footer_title + "\n</footer>\n"
+                                       + generateScripts()
+                                       + "</body>\n"
+                                       + "</html>\n";
+                }
 
 		std::string generateStyles() {
 			std::string compiled_styles;
