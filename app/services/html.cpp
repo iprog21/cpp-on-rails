@@ -165,8 +165,7 @@ class Html {
                 std::string generateFooter() {
                         return "\n<footer>\n" + footer_title + "\n</footer>\n"
                                        + generateScripts()
-                                       + "</body>\n"
-                                       + "</html>\n";
+                                       + "</body></html>\n";
                 }
 
 		std::string generateStyles() {
