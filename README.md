@@ -51,3 +51,32 @@ docker run -p 8080:8080 cpp-on-rails
 ```
 
 You can reference this image from your `kamal.yml` to run the service alongside a Rails application.
+
+## Kamal Deployment
+
+Deploy the container with Kamal on your servers:
+
+1. Build the image and push it to your registry:
+
+```bash
+   docker build -t registry.example.com/youruser/cpp-on-rails:latest .
+   docker push registry.example.com/youruser/cpp-on-rails:latest
+```
+
+2. Add a service to your existing `kamal.yml`:
+
+```yaml
+   services:
+     cpponrails:
+       image: registry.example.com/youruser/cpp-on-rails:latest
+       ports:
+         - "8080:8080"
+       roles:
+         - web
+```
+
+3. Deploy with Kamal:
+
+```bash
+   kamal deploy
+```
