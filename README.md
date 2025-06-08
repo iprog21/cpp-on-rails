@@ -40,3 +40,14 @@ setTemplatePath("app/templates/client_layout.html");
 
 This allows different pages or clients to share or override layouts easily.
 
+
+## Docker Deployment
+
+Build the image and run it on port `8080`:
+
+```bash
+docker build -t cpp-on-rails .
+docker run -p 8080:8080 cpp-on-rails
+```
+
+You can reference this image from your `kamal.yml` to run the service alongside a Rails application.
